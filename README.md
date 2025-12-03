@@ -253,18 +253,40 @@ cp .env.example .env
 #### 7. Cursor MCP 설정 (선택사항)
 
 > Cursor AI를 사용하는 경우, Supabase MCP 서버를 설정하면 AI가 데이터베이스를 직접 조회하고 관리할 수 있습니다.
+> 
+> **참고**: MCP 서버는 선택사항이며, 필수가 아닙니다. 문제가 발생하면 [MCP 문제 해결 가이드](./docs/troubleshooting-mcp.md)를 참고하세요.
 
-**7-1. Supabase Access Token 생성**
+**방법 1: Project Reference 사용 (권장)**
 
-1. Supabase Dashboard → 우측 상단 프로필 아이콘 클릭
-2. **Account Settings** → **Access Tokens**
-3. **"Generate new token"** 클릭
-4. Token name 입력 (예: `cursor-mcp`)
-5. 생성된 토큰 복사 (다시 볼 수 없으므로 안전한 곳에 보관)
+Cursor의 전역 MCP 설정 파일 수정:
+- Windows: `C:\Users\[사용자명]\.cursor\mcp.json`
+- macOS/Linux: `~/.cursor/mcp.json`
 
-**7-2. .cursor/mcp.json 설정**
+```json
+{
+  "mcpServers": {
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--project-ref",
+        "zltlchafanslyrdcqnnk"
+      ]
+    }
+  }
+}
+```
 
-`.cursor/mcp.json` 파일을 열고 `your_supabase_access_token` 부분을 실제 토큰으로 교체:
+Cursor 재시작 후 적용됩니다.
+
+**방법 2: Access Token 사용**
+
+1. Supabase Dashboard → 우측 상단 프로필 아이콘 → **Account Settings** → **Access Tokens**
+2. **"Generate new token"** 클릭, Token name 입력 (예: `cursor-mcp`)
+3. 생성된 토큰 복사
+
+MCP 설정 파일 수정:
 
 ```json
 {
@@ -282,9 +304,9 @@ cp .env.example .env
 }
 ```
 
-**7-3. Cursor 재시작**
-
-Cursor를 완전히 종료하고 다시 실행하여 MCP 서버 설정을 적용합니다.
+**MCP 서버 문제 발생 시**:
+- [MCP 문제 해결 가이드](./docs/troubleshooting-mcp.md) 참고
+- 또는 MCP 서버를 비활성화하고 Supabase Dashboard 직접 사용
 
 #### 8. 개발 서버 실행
 
