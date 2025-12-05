@@ -2,3 +2,12 @@ node_modules/
 .github/
 .next/
 pnpm-lock.yaml
+test-results/
+playwright-report/
+playwright/.cache/
+.supabase/
+.env*.local
+*.log
+dist/
+build/
+coverage/

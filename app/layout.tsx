@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import Navbar from "@/components/Navbar";
 import { SyncUserProvider } from "@/components/providers/sync-user-provider";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { clerkLocalization } from "@/lib/clerk/localization";
 import "./globals.css";
 
@@ -39,10 +40,12 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <SyncUserProvider>
-            <Navbar />
-            {children}
-          </SyncUserProvider>
+          <ErrorBoundary>
+            <SyncUserProvider>
+              <Navbar />
+              {children}
+            </SyncUserProvider>
+          </ErrorBoundary>
         </body>
       </html>
     </ClerkProvider>

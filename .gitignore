@@ -62,3 +62,14 @@ repomix-output.xml
 
 # clerk configuration (can include secrets)
 /.clerk/
+
+# Supabase
+.supabase/
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+.vercel
+.env*.local

@@ -97,11 +97,19 @@ Next.js 15, Clerk, Supabase를 활용한 모던 SaaS 애플리케이션 템플�
 - 다크/라이트 모드 지원 가능
 - 접근성 준수 (WCAG)
 
+### 🛒 쇼핑몰 기능
+- 상품 목록 및 상세 페이지
+- 장바구니 기능 (추가/수정/삭제)
+- 주문 생성 및 관리
+- 주문 내역 조회 (마이페이지)
+- Toss Payments 결제 통합 (테스트 모드)
+
 ### 🏗️ 아키텍처
 - Server Actions 우선 사용
-- 타입 안전성 보장
+- 타입 안전성 보장 (Zod 스키마 검증)
 - 모듈화된 코드 구조
 - Next.js 15 최신 패턴 적용
+- E2E 테스트 (Playwright)
 
 ## 시작하기
 
@@ -335,6 +343,12 @@ pnpm start
 
 # 린팅
 pnpm lint
+
+# E2E 테스트 실행
+pnpm test:e2e
+
+# E2E 테스트 UI 모드
+pnpm test:e2e:ui
 ```
 
 ## 추가 설정 및 팁
@@ -461,3 +475,5 @@ saas-template/
 - [Supabase Next.js 통합 가이드](./docs/supabase-nextjs-integration.md)
 - [Clerk 한국어 로컬라이제이션 가이드](./docs/clerk-localization.md)
 - [사용 예시](./docs/clerk-supabase-usage-examples.md)
+- [배포 가이드](./docs/DEPLOYMENT.md) - Vercel 배포 방법
+- [운영 가이드](./docs/OPERATIONS.md) - 일상적인 운영 작업 가이드

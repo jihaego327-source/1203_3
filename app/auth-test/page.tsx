@@ -34,7 +34,7 @@ export default function AuthTestPage() {
       setError(null);
 
       // 간단한 쿼리로 연결 테스트
-      const { data, error } = await supabase.from("users").select("count");
+      const { error } = await supabase.from("users").select("count");
 
       if (error) {
         console.error("Connection test error:", {

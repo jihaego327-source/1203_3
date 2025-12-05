@@ -14,6 +14,10 @@ import { auth } from "@clerk/nextjs/server";
  * - JWT 템플릿 불필요
  * - auth().getToken()으로 현재 세션 토큰 사용
  *
+ * 주의: accessToken 옵션 대신 global.fetch를 커스터마이징하여
+ * 헤더에 직접 토큰을 추가합니다. 이는 Server Component에서
+ * onAuthStateChange 오류를 방지하기 위함입니다.
+ *
  * @example
  * ```tsx
  * // Server Component
@@ -28,6 +32,22 @@ import { auth } from "@clerk/nextjs/server";
  */
 export async function createClient() {
   const cookieStore = await cookies();
+  const clerkToken = (await auth()).getToken();
+
+  // Clerk 토큰을 헤더에 추가하기 위한 커스텀 fetch
+  const customFetch = async (url: RequestInfo | URL, options?: RequestInit) => {
+    const token = await clerkToken;
+    
+    const headers = new Headers(options?.headers);
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return fetch(url, {
+      ...options,
+      headers,
+    });
+  };
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -44,15 +64,14 @@ export async function createClient() {
             cookiesToSet.forEach(({ name, value, options }) => {
               cookieStore.set(name, value, options);
             });
-          } catch (error) {
+          } catch {
             // Server Component에서는 쿠키 설정이 제한될 수 있습니다
             // 이는 정상적인 동작이며, middleware에서 처리됩니다
           }
         },
       },
-      async accessToken() {
-        // Clerk 토큰을 Supabase에 전달
-        return (await auth()).getToken() ?? null;
+      global: {
+        fetch: customFetch,
       },
     }
   );
@@ -62,10 +81,9 @@ export async function createClient() {
  * @deprecated 이 함수는 하위 호환성을 위해 유지됩니다.
  * 새로운 코드에서는 `createClient()`를 사용하세요.
  */
-export function createClerkSupabaseClient() {
-  // 하위 호환성을 위해 동기 함수로 래핑
-  // 하지만 실제로는 비동기 createClient()를 사용하는 것이 권장됩니다
-  const cookieStore = cookies();
+export async function createClerkSupabaseClient() {
+  // 하위 호환성을 위해 유지되지만, 실제로는 비동기 createClient()를 사용하는 것이 권장됩니다
+  const cookieStore = await cookies();
   
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
