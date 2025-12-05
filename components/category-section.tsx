@@ -29,7 +29,7 @@ export function CategorySection({
   }
 
   return (
-    <section className="px-8 py-16 lg:py-24">
+    <section className="px-8 py-12 lg:py-20 bg-white dark:bg-gray-900">
       <div className="w-full max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-3xl lg:text-4xl font-bold capitalize">

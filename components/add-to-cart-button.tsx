@@ -77,24 +77,24 @@ export function AddToCartButton({
         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
           수량:
         </span>
-        <div className="flex items-center gap-2 border rounded-md">
+        <div className="flex items-center gap-0 border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden bg-white dark:bg-gray-800">
           <Button
             variant="outline"
             size="icon"
-            className="h-9 w-9 rounded-r-none"
+            className="h-10 w-10 rounded-none border-0 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             onClick={handleDecrease}
             disabled={quantity <= 1 || isLoading}
             aria-label="수량 감소"
           >
             <Minus className="h-4 w-4" aria-hidden="true" />
           </Button>
-          <span className="w-12 text-center font-medium" aria-label={`수량: ${quantity}개`}>
+          <span className="w-12 text-center font-medium text-gray-900 dark:text-gray-100" aria-label={`수량: ${quantity}개`}>
             {quantity}
           </span>
           <Button
             variant="outline"
             size="icon"
-            className="h-9 w-9 rounded-l-none"
+            className="h-10 w-10 rounded-none border-0 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             onClick={handleIncrease}
             disabled={isMaxQuantity || isLoading}
             aria-label="수량 증가"

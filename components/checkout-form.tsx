@@ -205,7 +205,12 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
       )}
 
       {/* 제출 버튼 */}
-      <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
+      <Button
+        type="submit"
+        size="lg"
+        className="w-full hover:shadow-[0_0_20px_rgba(37,99,235,0.5)] hover:border-blue-500 border-2 border-transparent bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all duration-300"
+        disabled={isSubmitting}
+      >
         {isSubmitting ? "주문 처리 중..." : "주문하기"}
       </Button>
     </form>

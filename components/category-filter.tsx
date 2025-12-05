@@ -37,32 +37,37 @@ export function CategoryFilter({ categories }: CategoryFilterProps) {
   };
 
   return (
-    <nav className="flex flex-wrap gap-2" aria-label="카테고리 필터">
-      {/* 전체 버튼 */}
-      <Link href={createUrl(null)}>
-        <Button
-          variant={selectedCategory === null ? "default" : "outline"}
-          size="sm"
-          aria-label="전체 상품 보기"
-          aria-pressed={selectedCategory === null}
-        >
-          전체
-        </Button>
-      </Link>
-
-      {/* 카테고리 버튼들 */}
-      {categories.map((category) => (
-        <Link key={category} href={createUrl(category)}>
+    <nav 
+      className="sticky top-16 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm -mx-8 px-8 py-4 mb-6"
+      aria-label="카테고리 필터"
+    >
+      <div className="flex flex-wrap gap-2">
+        {/* 전체 버튼 */}
+        <Link href={createUrl(null)}>
           <Button
-            variant={selectedCategory === category ? "default" : "outline"}
+            variant={selectedCategory === null ? "default" : "outline"}
             size="sm"
-            aria-label={`${category} 카테고리 상품 보기`}
-            aria-pressed={selectedCategory === category}
+            aria-label="전체 상품 보기"
+            aria-pressed={selectedCategory === null}
           >
-            {category}
+            전체
           </Button>
         </Link>
-      ))}
+
+        {/* 카테고리 버튼들 */}
+        {categories.map((category) => (
+          <Link key={category} href={createUrl(category)}>
+            <Button
+              variant={selectedCategory === category ? "default" : "outline"}
+              size="sm"
+              aria-label={`${category} 카테고리 상품 보기`}
+              aria-pressed={selectedCategory === category}
+            >
+              {category}
+            </Button>
+          </Link>
+        ))}
+      </div>
     </nav>
   );
 }

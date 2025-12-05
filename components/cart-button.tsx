@@ -7,18 +7,26 @@
 
 "use client";
 
-import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { CartSidebar } from "./cart-sidebar";
 
 export function CartButton() {
   const { isSignedIn } = useUser();
   const [itemCount, setItemCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+    
     if (!isSignedIn) {
       setIsLoading(false);
       return;
@@ -44,23 +52,27 @@ export function CartButton() {
     const interval = setInterval(fetchCartCount, 5000);
 
     return () => clearInterval(interval);
-  }, [isSignedIn]);
+  }, [isSignedIn, isMounted]);
 
   if (!isSignedIn) {
     return null;
   }
 
+  // 마운트 전에는 배지 없이 렌더링하여 서버/클라이언트 일치
+  const showBadge = isMounted && !isLoading && itemCount > 0;
+
   return (
-    <Link href="/cart" aria-label="장바구니">
-      <Button 
-        variant="outline" 
-        size="icon" 
+    <>
+      <Button
+        variant="outline"
+        size="icon"
         className="relative"
-        aria-label={`장바구니 (${itemCount}개)`}
+        onClick={() => setIsSidebarOpen(true)}
+        aria-label={isMounted ? `장바구니 (${itemCount}개)` : "장바구니"}
       >
         <ShoppingCart className="h-5 w-5" aria-hidden="true" />
-        {!isLoading && itemCount > 0 && (
-          <span 
+        {showBadge && (
+          <span
             className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white"
             aria-label={`장바구니 아이템 ${itemCount}개`}
           >
@@ -68,7 +80,8 @@ export function CartButton() {
           </span>
         )}
       </Button>
-    </Link>
+      <CartSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+    </>
   );
 }
 

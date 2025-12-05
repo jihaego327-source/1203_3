@@ -8,7 +8,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { EmptyOrders } from "@/components/empty-state";
 import { getOrders } from "@/lib/actions/orders";
 import { formatPrice } from "@/lib/utils/format";

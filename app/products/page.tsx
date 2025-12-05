@@ -69,11 +69,12 @@ export default async function ProductsPage({
             </Suspense>
           </div>
 
-          {/* 카테고리 필터 */}
-          <Suspense fallback={<div className="h-10 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />}>
-            <CategoryFilter categories={categories} />
-          </Suspense>
         </div>
+
+        {/* 카테고리 필터 - 상단 고정 */}
+        <Suspense fallback={<div className="h-16 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-6" />}>
+          <CategoryFilter categories={categories} />
+        </Suspense>
 
         {products.length === 0 ? (
           <EmptyProducts />
@@ -87,7 +88,7 @@ export default async function ProductsPage({
               columns={{
                 mobile: 1,
                 tablet: 2,
-                desktop: 3,
+                desktop: 4,
               }}
             />
           )}
